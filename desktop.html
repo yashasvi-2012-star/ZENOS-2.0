@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ZENOS OS</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+height:100vh;
+overflow:hidden;
+color:white;
+
+background:
+url('zenosbg.jpg')
+center center/cover no-repeat;
+}
+
+/* ===========================
+TOP BAR
+=========================== */
+
+#topbar{
+
+position:fixed;
+top:10px;
+left:50%;
+
+transform:translateX(-50%);
+
+display:flex;
+gap:15px;
+
+padding:12px 20px;
+
+border-radius:30px;
+
+background:rgba(0,120,255,.15);
+
+backdrop-filter:blur(25px);
+
+border:1px solid rgba(255,255,255,.15);
+
+z-index:9999;
+}
+
+.maximize{
+
+width:18px;
+height:18px;
+
+border-radius:50%;
+
+background:#34d058;
+
+cursor:pointer;
+
+}
+
+.top-pill{
+
+padding:8px 15px;
+
+border-radius:20px;
+
+background:rgba(255,255,255,.08);
+}
+
+/* ===========================
+DESKTOP ICONS
+=========================== */
+
+.desktop{
+
+position:absolute;
+
+top:90px;
+left:25px;
+
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.desktop-icon{
+
+width:90px;
+
+text-align:center;
+
+cursor:pointer;
+
+transition:.3s;
+}
+
+.desktop-icon:hover{
+
+transform:translateY(-5px);
+
+}
+
+.desktop-icon .emoji{
+
+font-size:40px;
+margin-bottom:5px;
+}
+
+.desktop-icon span{
+
+font-size:13px;
+}
+
+/* ===========================
+STAR CLOCK
+=========================== */
+
+
+#starWidget{
+
+position:absolute;
+
+top:100px;
+right:60px;
+
+width:180px;
+height:180px;
+
+background:rgba(0,180,255,.15);
+
+backdrop-filter:blur(20px);
+
+border:2px dashed rgba(255,255,255,.5);
+
+box-shadow:
+0 0 25px rgba(87,179,255,.5),
+0 0 60px rgba(87,179,255,.2);
+
+clip-path:polygon(
+50% 0%,
+61% 35%,
+98% 35%,
+68% 57%,
+79% 91%,
+50% 70%,
+21% 91%,
+32% 57%,
+2% 35%,
+39% 35%
+);
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+text-align:center;
+
+cursor:move;
+
+z-index:1000;
+
+}
+#widgetClock{
+
+font-size:18px;
+font-weight:bold;
+}
+
+/* ===========================
+DOCK
+=========================== */
+
+#dock{
+
+position:fixed;
+
+bottom:15px;
+left:50%;
+
+transform:translateX(-50%);
+
+display:flex;
+gap:12px;
+
+padding:12px 18px;
+
+border-radius:30px;
+
+background:rgba(0,120,255,.18);
+
+backdrop-filter:blur(30px);
+
+border:1px solid rgba(255,255,255,.15);
+
+z-index:9999;
+}
+
+.window{
+
+animation:windowOpen .25s ease;
+
+}
+
+@keyframes windowOpen{
+
+from{
+
+opacity:0;
+
+transform:
+translateY(15px)
+scale(.95);
+
+}
+
+to{
+
+opacity:1;
+
+transform:
+translateY(0)
+scale(1);
+
+}
+
+}
+
+.dock-icon{
+
+width:60px;
+height:60px;
+
+border-radius:18px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:28px;
+
+cursor:pointer;
+
+background:rgba(255,255,255,.08);
+
+transition:.3s;
+}
+
+.dock-icon:hover{
+
+transform:translateY(-8px);
+
+background:rgba(255,255,255,.15);
+}
+
+.running{
+
+box-shadow:
+0 0 15px
+rgba(87,179,255,.9);
+
+}
+
+/* ===========================
+WINDOWS
+=========================== */
+
+.window{
+
+position:absolute;
+
+top:120px;
+left:140px;
+
+width:760px;
+height:500px;
+
+display:none;
+
+border-radius:25px;
+
+overflow:hidden;
+
+background:rgba(0,120,255,.15);
+
+backdrop-filter:blur(25px);
+
+border:1px solid rgba(255,255,255,.15);
+
+box-shadow:
+0 10px 40px rgba(0,0,0,.25);
+
+}
+
+.window-header{
+
+height:55px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:0 15px;
+
+background:rgba(255,255,255,.08);
+
+cursor:move;
+}
+
+.window-title{
+
+font-weight:700;
+}
+
+.window-buttons{
+
+display:flex;
+gap:10px;
+}
+
+.minimize,
+.close{
+
+width:18px;
+height:18px;
+
+border-radius:50%;
+
+cursor:pointer;
+}
+
+.minimize{
+
+background:#ffc857;
+}
+
+.close{
+
+background:#57b3ff;
+}
+
+.window-body{
+
+height:calc(100% - 55px);
+
+padding:15px;
+overflow:auto;
+}
+
+/* ===========================
+INPUTS
+=========================== */
+
+textarea{
+
+width:100%;
+height:100%;
+
+background:rgba(255,255,255,.08);
+
+border:none;
+outline:none;
+
+color:white;
+
+padding:15px;
+
+border-radius:15px;
+
+resize:none;
+}
+
+iframe{
+
+width:100%;
+height:100%;
+
+border:none;
+
+border-radius:15px;
+}
+
+#calcInput{
+
+width:100%;
+
+padding:15px;
+
+font-size:20px;
+
+border:none;
+
+border-radius:15px;
+
+outline:none;
+}
+
+#calcResult{
+
+margin-top:15px;
+font-size:22px;
+}
+
+#bootScreen{
+
+position:fixed;
+inset:0;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+
+background:#020b16;
+
+z-index:999999;
+
+transition:1s;
+}
+
+#bootLogo{
+
+font-size:70px;
+
+margin-bottom:20px;
+
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.1);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+#launcher{
+
+position:fixed;
+
+bottom:95px;
+left:50%;
+
+transform:translateX(-50%);
+
+width:650px;
+
+display:none;
+
+padding:25px;
+
+border-radius:25px;
+
+background:rgba(0,120,255,.18);
+
+backdrop-filter:blur(30px);
+
+border:1px solid rgba(255,255,255,.15);
+
+z-index:99999;
+}
+
+.launcher-grid{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:10px;
+
+margin-top:15px;
+}
+
+.launcher-grid button{
+
+padding:15px;
+
+border:none;
+
+cursor:pointer;
+
+border-radius:15px;
+
+background:rgba(255,255,255,.08);
+
+color:white;
+}
+
+
+.launcher-grid button{
+
+padding:15px;
+
+border:none;
+
+cursor:pointer;
+
+border-radius:15px;
+
+background:
+rgba(255,255,255,.08);
+
+color:white;
+
+transition:.3s;
+
+}
+
+.launcher-grid button:hover{
+
+transform:translateY(-4px);
+
+background:
+rgba(255,255,255,.15);
+
+}
+</style>
+</head>
+
+<body>
+    <div id="bootScreen">
+
+<div id="bootLogo">
+💙
+</div>
+
+<h1>ZENOS OS</h1>
+
+<p>
+Starting Systems...
+</p>
+
+</div>
+
+<div id="topbar">
+
+<div class="top-pill">
+ZENOS OS
+</div>
+
+<div class="top-pill" id="liveDate">
+Date
+</div>
+
+<div class="top-pill" id="liveClock">
+00:00
+</div>
+
+</div>
+
+<!-- STAR CLOCK -->
+
+<div id="starWidget">
+<div id="widgetClock">
+00:00
+</div>
+</div>
+
+<!-- DESKTOP -->
+
+<div class="desktop">
+
+<div class="desktop-icon" onclick="openWindow('stellarWindow')">
+<div class="emoji">🪐</div>
+<span>StellarOS</span>
+</div>
+
+<div class="desktop-icon" onclick="openWindow('captainWindow')">
+<div class="emoji">📖</div>
+<span>Captain's Log</span>
+</div>
+
+<div class="desktop-icon" onclick="openWindow('notesWindow')">
+<div class="emoji">📝</div>
+<span>Notes</span>
+</div>
+
+<div class="desktop-icon" onclick="openWindow('aiWindow')">
+<div class="emoji">🤖</div>
+<span>AI Chatbot</span>
+</div>
+
+<div class="desktop-icon" onclick="openWindow('weatherWindow')">
+<div class="emoji">🌤️</div>
+<span>Weather</span>
+</div>
+
+<div class="desktop-icon" onclick="openWindow('calendarWindow')">
+<div class="emoji">📅</div>
+<span>Calendar</span>
+</div>
+
+</div>
+
+<div
+id="welcomePopup"
+style="
+position:absolute;
+top:120px;
+left:50%;
+transform:translateX(-50%);
+width:500px;
+padding:25px;
+border-radius:25px;
+background:rgba(0,120,255,.18);
+backdrop-filter:blur(25px);
+z-index:99999;
+">
+
+<h2>
+✨ Welcome to ZENOS V2
+</h2>
+
+<br>
+
+<p>
+Your personal futuristic web operating system.
+</p>
+
+<br>
+
+<button
+onclick="closeWelcome()">
+Enter ZENOS
+</button>
+
+</div>
+
+<div id="launcher">
+
+<h2>ZENOS Apps</h2>
+
+<div class="launcher-grid">
+
+<button onclick="openWindow('stellarWindow')">🪐 StellarOS</button>
+
+<button onclick="openWindow('captainWindow')">📖 Captain's Log</button>
+
+<button onclick="openWindow('notesWindow')">📝 Notes</button>
+
+<button onclick="openWindow('musicWindow')">🎵 Music</button>
+
+<button onclick="openWindow('paintWindow')">🎨 Paint</button>
+
+<button onclick="openWindow('browserWindow')">🌐 Browser</button>
+
+<button onclick="openWindow('calculatorWindow')">🧮 Calculator</button>
+
+<button onclick="openWindow('clockWindow')">🕒 Clock</button>
+
+<button onclick="openWindow('weatherWindow')">🌤️ Weather</button>
+
+<button onclick="openWindow('calendarWindow')">📅 Calendar</button>
+
+<button onclick="openWindow('aiWindow')">🤖 AI Assistant</button>
+
+<button onclick="openWindow('missionControlWindow')">🚀 Mission Control</button>
+
+</div>
+
+</div>
+<!-- DOCK -->
+
+<div id="dock">
+
+    <div
+class="dock-icon"
+onclick="toggleLauncher()">
+🚀
+</div>
+
+<div class="dock-icon" onclick="openWindow('calculatorWindow')">🧮</div>
+
+<div class="dock-icon" onclick="openWindow('musicWindow')">🎵</div>
+
+<div class="dock-icon" onclick="openWindow('paintWindow')">🎨</div>
+
+<div class="dock-icon" onclick="openWindow('browserWindow')">🌐</div>
+
+<div class="dock-icon" onclick="openWindow('clockWindow')">🕒</div>
+
+</div>
+<!-- ==========================
+STELLAR OS
+========================== -->
+
+<div class="window" id="stellarWindow">
+
+<div class="window-header" id="stellarWindowheader">
+
+<div class="window-title">
+🪐 StellarOS
+</div>
+
+<div class="window-buttons">
+<div class="minimize" onclick="minimizeWindow('stellarWindow')"></div>
+<div class="close" onclick="closeWindow('stellarWindow')"></div>
+</div>
+
+</div>
+
+<div class="window-body">
+
+<h1>Welcome to StellarOS</h1>
+
+<br>
+
+<p>
+Your interactive Solar System project launcher.
+</p>
+
+<br>
+
+<p>
+Future versions will connect directly to your
+planet exploration page.
+</p>
+
+</div>
+
+</div>
+
+<!-- ==========================
+CAPTAIN LOG
+========================== -->
+
+<div class="window" id="captainWindow">
+
+<div class="window-header" id="captainWindowheader">
+
+<div class="window-title">
+📖 Captain's Log
+</div>
+
+<div class="window-buttons">
+<div class="minimize" onclick="minimizeWindow('captainWindow')"></div>
+<div class="close" onclick="closeWindow('captainWindow')"></div>
+</div>
+
+</div>
+
+<div class="window-body">
+
+<textarea placeholder="Write your missions and logs here..."></textarea>
+
+</div>
+
+</div>
+
+<!-- ==========================
+NOTES
+========================== -->
+
+<div class="window" id="notesWindow">
+
+<div class="window-header" id="notesWindowheader">
+
+<div class="window-title">
+📝 Notes
+</div>
+
+<div class="window-buttons">
+<div class="minimize" onclick="minimizeWindow('notesWindow')"></div>
+<div class="close" onclick="closeWindow('notesWindow')"></div>
+</div>
+
+</div>
+
+<div class="window-body">
+
+<textarea
+id="notesArea"
+placeholder="Write your notes here...">
+</textarea>
+
+</div>
+
+</div>
+
+
+<div
+class="window"
+id="missionControlWindow">
+
+<div
+class="window-header"
+id="missionControlWindowheader">
+
+<div class="window-title">
+🚀 Mission Control
+</div>
+
+<div class="window-buttons">
+
+<div
+class="minimize"
+onclick="minimizeWindow('missionControlWindow')">
+</div>
+
+<div
+class="close"
+onclick="closeWindow('missionControlWindow')">
+</div>
+
+</div>
+
+</div>
+
+<div class="window-body">
+
+<h2>
+🚀 Mission Control
+</h2>
+
+<br>
+
+<p>
+Currently Running Apps:
+</p>
+
+<br>
+
+<div
+id="missionApps"
+style="
+padding:15px;
+border-radius:15px;
+background:rgba(255,255,255,.08);
+">
+
+No apps running
+
+</div>
+
+</div>
+
+
+🪐 StellarOS<br>
+📖 Captain's Log<br>
+📝 Notes<br>
+🎵 Music<br>
+🌐 Browser<br>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ==========================
+AI CHATBOT
+========================== -->
+
+<div class="window" id="aiWindow">
+
+<div class="window-header" id="aiWindowheader">
+
+<div class="window-title">
+🤖 AI Assistant
+</div>
+
+<div class="window-buttons">
+<div class="minimize" onclick="minimizeWindow('aiWindow')"></div>
+<div class="close" onclick="closeWindow('aiWindow')"></div>
+</div>
+
+</div>
+
+<div class="window-body">
+
+<div
+id="chatArea"
+style="
+height:320px;
+overflow-y:auto;
+padding:10px;
+background:rgba(255,255,255,.08);
+border-radius:15px;
+margin-bottom:10px;
+">
+
+<div>
+🤖 Hello! Welcome to ZENOS AI.
+</div>
+
+</div>
+
+<input
+id="chatInput"
+placeholder="Ask something..."
+style="
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+margin-bottom:10px;
+">
+
+<button
+onclick="sendMessage()"
+style="
+padding:10px 20px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+">
+Send
+</button>
+
+</div>
+
+</div>
+
+<!-- ==========================
+MUSIC
+========================== -->
+
+<div class="window" id="musicWindow">
+
+<div class="window-header" id="musicWindowheader">
+
+<div class="window-title">
+🎵 Music
+</div>
+
+<div class="window-buttons">
+<div class="minimize" onclick="minimizeWindow('musicWindow')"></div>
+<div class="close" onclick="closeWindow('musicWindow')"></div>
+</div>
+
+</div>
+
+<div class="window-body">
+
+<iframe
+style="height:100%;"
+src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M"
+allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+</iframe>
+
+</div>
+
+</div>
+
+<!-- ==========================
+CALCULATOR
+========================== -->
+
+<div class="window" id="calculatorWindow">
+
+<div class="window-header" id="calculatorWindowheader">
+
+<div class="window-title">
+🧮 Calculator
+</div>
+
+<div class="window-buttons">
+<div class="minimize" onclick="minimizeWindow('calculatorWindow')"></div>
+<div class="close" onclick="closeWindow('calculatorWindow')"></div>
+</div>
+
+</div>
+
+<div class="window-body">
+
+<input
+id="calcInput"
+placeholder="Example: 5+5*2">
+
+<button
+style="
+margin-top:15px;
+padding:12px 20px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-size:16px;
+"
+onclick="calculate()">
+Calculate
+</button>
+
+<div id="calcResult">
+Result:
+</div>
+
+</div>
+
+</div>
+
+<!-- ==========================
+PAINT
+========================== -->
+
+<div class="window" id="paintWindow">
+
+<div class="window-header" id="paintWindowheader">
+
+<div class="window-title">
+🎨 Paint
+</div>
+
+<div class="window-buttons">
+<div class="minimize" onclick="minimizeWindow('paintWindow')"></div>
+<div class="close" onclick="closeWindow('paintWindow')"></div>
+</div>
+
+</div>
+
+<div class="window-body">
+    <div
+style="
+display:flex;
+gap:10px;
+margin-bottom:10px;
+">
+
+<input
+type="color"
+id="paintColor"
+value="#000000">
+
+<input
+type="range"
+id="brushSize"
+min="1"
+max="20"
+value="3">
+
+<button onclick="clearCanvas()">
+Clear
+</button>
+
+</div>
+
+<canvas
+id="paintCanvas"
+width="700"
+height="380"
+style="
+background:white;
+border-radius:15px;
+cursor:crosshair;
+">
+</canvas>
+
+</div>
+
+</div>
+
+<!-- ==========================
+BROWSER
+========================== -->
+
+<div class="window" id="browserWindow">
+
+<div class="window-header" id="browserWindowheader">
+
+<div class="window-title">
+🌐 Browser
+</div>
+
+<div class="window-buttons">
+<div class="minimize" onclick="minimizeWindow('browserWindow')"></div>
+<div class="close" onclick="closeWindow('browserWindow')"></div>
+</div>
+
+</div>
+
+<div class="window-body">
+
+<div
+style="
+display:flex;
+gap:10px;
+margin-bottom:10px;
+">
+
+<input
+id="browserUrl"
+placeholder="Enter URL"
+style="
+flex:1;
+padding:12px;
+border:none;
+border-radius:10px;
+">
+
+<button
+onclick="loadWebsite()">
+Go
+</button>
+
+</div>
+
+<iframe
+id="browserFrame"
+src="https://www.wikipedia.org">
+</iframe>
+
+</div>
+</div>
+
+<!-- ==========================
+CLOCK APP
+========================== -->
+
+<div class="window" id="clockWindow">
+
+<div class="window-header" id="clockWindowheader">
+
+<div class="window-title">
+🕒 Clock
+</div>
+
+<div class="window-buttons">
+<div class="minimize" onclick="minimizeWindow('clockWindow')"></div>
+<div class="close" onclick="closeWindow('clockWindow')"></div>
+</div>
+
+</div>
+
+<div class="window-body">
+
+<div
+style="
+display:flex;
+justify-content:center;
+align-items:center;
+height:100%;
+font-size:60px;
+font-weight:bold;
+"
+id="bigClock">
+00:00:00
+</div>
+
+</div>
+
+</div>
+
+<div class="window" id="weatherWindow">
+
+<div class="window-header" id="weatherWindowheader">
+
+<div class="window-title">
+🌤️ Weather
+</div>
+
+<div class="window-buttons">
+
+<div class="minimize"
+onclick="minimizeWindow('weatherWindow')"></div>
+
+<div class="maximize"
+onclick="maximizeWindow('weatherWindow')"></div>
+
+<div class="close"
+onclick="closeWindow('weatherWindow')"></div>
+
+</div>
+
+</div>
+
+<div class="window-body">
+
+<h2 id="weatherInfo">
+Loading Weather...
+</h2>
+
+<br>
+
+<div id="cityInfo">
+Detecting Location...
+</div>
+
+</div>
+
+</div>
+<div class="window" id="calendarWindow">
+
+<div class="window-header" id="calendarWindowheader">
+
+<div class="window-title">
+📅 Calendar
+</div>
+
+<div class="window-buttons">
+
+<div class="minimize"
+onclick="minimizeWindow('calendarWindow')"></div>
+
+<div class="maximize"
+onclick="maximizeWindow('calendarWindow')"></div>
+
+<div class="close"
+onclick="closeWindow('calendarWindow')"></div>
+
+</div>
+
+</div>
+
+<div class="window-body">
+
+<iframe
+src="https://calendar.google.com">
+</iframe>
+
+</div>
+
+</div>
+<script>
+let runningApps = [];
+
+/* ==========================
+WINDOW SYSTEM
+========================== */
+
+let highestZ = 100;
+
+function openWindow(id){
+
+const win =
+document.getElementById(id);
+
+win.style.display = "block";
+
+highestZ++;
+
+win.style.zIndex =
+highestZ;
+
+if(
+!runningApps.includes(id)
+){
+
+runningApps.push(id);
+
+updateMissionControl();
+
+}
+
+}
+
+function closeWindow(id){
+
+document.getElementById(id)
+.style.display = "none";
+
+runningApps =
+runningApps.filter(
+app => app !== id
+);
+
+updateMissionControl();
+
+}
+function minimizeWindow(id){
+
+document.getElementById(id).style.display = "none";
+
+}
+
+/* ==========================
+CLOCKS
+========================== */
+
+function updateClock(){
+
+const now = new Date();
+
+document.getElementById("liveClock").innerHTML =
+now.toLocaleTimeString();
+
+document.getElementById("widgetClock").innerHTML =
+now.toLocaleTimeString();
+
+document.getElementById("bigClock").innerHTML =
+now.toLocaleTimeString();
+
+document.getElementById("liveDate").innerHTML =
+now.toLocaleDateString(
+'en-US',
+{
+weekday:'long',
+month:'short',
+day:'numeric'
+}
+);
+
+}
+
+updateClock();
+
+setInterval(updateClock,1000);
+
+/* ==========================
+CALCULATOR
+========================== */
+
+function calculate(){
+
+const input =
+document.getElementById("calcInput").value;
+
+try{
+
+const result = eval(input);
+
+document.getElementById(
+"calcResult"
+).innerHTML =
+"Result: " + result;
+
+}
+
+catch{
+
+document.getElementById(
+"calcResult"
+).innerHTML =
+"Invalid Expression";
+
+}
+
+}
+
+/* ==========================
+PAINT APP
+========================== */
+
+const canvas =
+document.getElementById("paintCanvas");
+
+const ctx =
+canvas.getContext("2d");
+
+let drawing = false;
+
+canvas.addEventListener(
+"mousedown",
+() => {
+
+drawing = true;
+
+ctx.beginPath();
+
+}
+);
+
+canvas.addEventListener(
+"mouseup",
+() => {
+
+drawing = false;
+
+}
+);
+
+canvas.addEventListener(
+"mousemove",
+draw
+);
+
+function draw(e){
+
+if(!drawing) return;
+
+const rect =
+canvas.getBoundingClientRect();
+
+ctx.lineWidth =
+document.getElementById(
+"brushSize"
+).value;
+
+ctx.lineCap = "round";
+
+ctx.strokeStyle =
+document.getElementById(
+"paintColor"
+).value;
+
+ctx.lineTo(
+e.clientX - rect.left,
+e.clientY - rect.top
+);
+
+ctx.stroke();
+
+ctx.beginPath();
+
+ctx.moveTo(
+e.clientX - rect.left,
+e.clientY - rect.top
+);
+
+}
+
+/* ==========================
+DRAG SYSTEM
+========================== */
+
+function dragElement(elmnt){
+
+let pos1=0,pos2=0,pos3=0,pos4=0;
+
+const header =
+document.getElementById(
+elmnt.id + "header"
+);
+
+if(header){
+
+header.onmousedown =
+dragMouseDown;
+
+}
+
+function dragMouseDown(e){
+
+e=e||window.event;
+
+e.preventDefault();
+
+highestZ++;
+
+elmnt.style.zIndex =
+highestZ;
+
+pos3=e.clientX;
+pos4=e.clientY;
+
+document.onmouseup =
+closeDragElement;
+
+document.onmousemove =
+elementDrag;
+
+}
+
+function elementDrag(e){
+
+e=e||window.event;
+
+e.preventDefault();
+
+pos1=pos3-e.clientX;
+pos2=pos4-e.clientY;
+
+pos3=e.clientX;
+pos4=e.clientY;
+
+elmnt.style.top=
+(elmnt.offsetTop-pos2)
++"px";
+
+elmnt.style.left=
+(elmnt.offsetLeft-pos1)
++"px";
+
+}
+
+function closeDragElement(){
+
+document.onmouseup=null;
+
+document.onmousemove=null;
+
+}
+
+}
+
+/* ==========================
+MAKE WINDOWS DRAGGABLE
+========================== */
+
+dragElement(
+document.getElementById(
+"stellarWindow"
+)
+);
+
+dragElement(
+document.getElementById(
+"captainWindow"
+)
+);
+
+dragElement(
+document.getElementById(
+"notesWindow"
+)
+);
+
+dragElement(
+document.getElementById(
+"aiWindow"
+)
+);
+
+dragElement(
+document.getElementById(
+"musicWindow"
+)
+);
+
+dragElement(
+document.getElementById(
+"calculatorWindow"
+)
+);
+
+dragElement(
+document.getElementById(
+"paintWindow"
+)
+);
+
+dragElement(
+document.getElementById(
+"browserWindow"
+)
+);
+
+dragElement(
+document.getElementById(
+"clockWindow"
+)
+);
+
+dragElement(
+document.getElementById(
+"missionControlWindow"
+)
+);
+/* ==========================
+STAR WIDGET DRAG
+========================== */
+
+const star =
+document.getElementById(
+"starWidget"
+);
+
+let dragStar = false;
+
+let offsetX = 0;
+let offsetY = 0;
+
+star.addEventListener(
+"mousedown",
+(e)=>{
+
+dragStar = true;
+
+offsetX =
+e.clientX - star.offsetLeft;
+
+offsetY =
+e.clientY - star.offsetTop;
+
+highestZ++;
+
+star.style.zIndex =
+highestZ;
+
+}
+);
+
+document.addEventListener(
+"mousemove",
+(e)=>{
+
+if(!dragStar) return;
+
+star.style.left =
+(e.clientX - offsetX)
++ "px";
+
+star.style.top =
+(e.clientY - offsetY)
++ "px";
+
+}
+);
+
+document.addEventListener(
+"mouseup",
+()=>{
+
+dragStar = false;
+
+}
+);
+const notesArea =
+document.getElementById(
+"notesArea"
+);
+
+if(notesArea){
+
+notesArea.value =
+localStorage.getItem(
+"zenosNotes"
+) || "";
+
+notesArea.addEventListener(
+"input",
+()=>{
+
+localStorage.setItem(
+"zenosNotes",
+notesArea.value
+);
+
+}
+);
+
+}
+function sendMessage(){
+
+const input =
+document.getElementById(
+"chatInput"
+);
+
+const chat =
+document.getElementById(
+"chatArea"
+);
+
+if(input.value.trim()==="")
+return;
+
+chat.innerHTML +=
+`
+<div style="margin-top:10px;">
+🧑 ${input.value}
+</div>
+
+<div>
+🤖 I am currently offline.
+Future versions will connect
+to a real AI model.
+</div>
+`;
+
+input.value="";
+
+chat.scrollTop =
+chat.scrollHeight;
+
+}
+
+
+function closeWelcome(){
+
+document.getElementById(
+"welcomePopup"
+).style.display =
+"none";
+
+}
+
+function clearCanvas(){
+
+ctx.clearRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+}
+
+async function loadWeather(){
+
+if(!navigator.geolocation) return;
+
+navigator.geolocation.getCurrentPosition(
+async(position)=>{
+
+const lat =
+position.coords.latitude;
+
+const lon =
+position.coords.longitude;
+
+try{
+
+const weatherRes =
+await fetch(
+`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m`
+);
+
+const weatherData =
+await weatherRes.json();
+
+const geoRes =
+await fetch(
+`https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}`
+);
+
+const geoData =
+await geoRes.json();
+
+const city =
+geoData.address.city ||
+geoData.address.town ||
+geoData.address.village ||
+"Unknown";
+
+document.getElementById(
+"weatherInfo"
+).innerHTML =
+`🌤️ ${weatherData.current.temperature_2m}°C`;
+
+document.getElementById(
+"cityInfo"
+).innerHTML =
+city;
+
+}
+catch{
+
+document.getElementById(
+"weatherInfo"
+).innerHTML =
+"Weather Error";
+
+}
+
+}
+);
+
+}
+
+loadWeather();
+
+let maximized = {};
+
+function maximizeWindow(id){
+
+const win =
+document.getElementById(id);
+
+if(!maximized[id]){
+
+maximized[id] = {
+
+top:win.style.top,
+left:win.style.left,
+width:win.style.width,
+height:win.style.height
+
+};
+
+win.style.top="0";
+win.style.left="0";
+
+win.style.width="100vw";
+win.style.height="100vh";
+
+}
+else{
+
+win.style.top =
+maximized[id].top;
+
+win.style.left =
+maximized[id].left;
+
+win.style.width =
+maximized[id].width;
+
+win.style.height =
+maximized[id].height;
+
+delete maximized[id];
+
+}
+
+}
+setTimeout(()=>{
+
+document.getElementById(
+"bootScreen"
+).style.opacity="0";
+
+setTimeout(()=>{
+
+document.getElementById(
+"bootScreen"
+).remove();
+
+},1000);
+
+},2500);  
+
+setTimeout(()=>{
+
+alert(
+"Welcome to ZENOS V2 🚀"
+);
+
+},3000);
+
+
+function toggleLauncher(){
+
+const launcher =
+document.getElementById(
+"launcher"
+);
+
+launcher.style.display =
+launcher.style.display ===
+"block"
+?
+"none"
+:
+"block";
+
+}
+document.addEventListener(
+"click",
+(e)=>{
+
+const launcher =
+document.getElementById(
+"launcher"
+);
+
+if(
+launcher &&
+!launcher.contains(e.target) &&
+e.target.innerText !== "🚀"
+){
+
+launcher.style.display =
+"none";
+
+}
+
+}
+);
+function updateMissionControl(){
+
+const panel =
+document.getElementById(
+"missionApps"
+);
+
+if(!panel) return;
+
+panel.innerHTML =
+runningApps.length
+?
+runningApps.join("<br>")
+:
+"No apps running";
+
+}
+setTimeout(()=>{
+
+openWindow(
+"missionControlWindow"
+);
+
+},3500);
+</script>
+
+</body>
+</html>
