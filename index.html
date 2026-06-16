@@ -1,0 +1,493 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ZENOS OS</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+
+    background:
+    url('zenosbg.jpg')
+    center center / cover no-repeat;
+
+    color:white;
+}
+
+/* TOP BAR */
+
+#topbar{
+
+position:fixed;
+top:0;
+left:0;
+
+width:100%;
+height:60px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:0 15px;
+
+backdrop-filter:blur(20px);
+background:rgba(0,120,255,.15);
+
+border-bottom:1px solid rgba(255, 255, 255, 0.15);
+
+z-index:9999;
+}
+
+.left,
+.right{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.pill{
+
+padding:8px 14px;
+
+border-radius:30px;
+
+background:rgba(255, 255, 255, 0.12);
+
+backdrop-filter:blur(10px);
+
+font-size:14px;
+}
+
+#osBtn{
+cursor:pointer;
+transition:.3s;
+}
+
+#osBtn:hover{
+transform:translateY(-2px);
+}
+#weather{
+    min-width:180px;
+    text-align:center;
+}
+
+/* WINDOW */
+
+.window{
+
+position:absolute;
+
+top:120px;
+left:120px;
+
+width:700px;
+max-width:95vw;
+
+background:rgba(0,120,255,.15);
+
+backdrop-filter:blur(30px);
+
+border:1px solid rgba(255, 255, 255, 0.15);
+
+border-radius:25px;
+
+overflow:hidden;
+
+box-shadow:
+0 10px 40px rgba(0, 0, 0, 0.25);
+
+animation:show .4s ease;
+}
+
+@keyframes show{
+from{
+opacity:0;
+transform:scale(.95);
+}
+to{
+opacity:1;
+transform:scale(1);
+}
+}
+
+.window-header{
+
+height:55px;
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+padding:0 15px;
+
+background:rgba(255, 255, 255, 0.08);
+
+cursor:move;
+}
+
+.window-title{
+font-weight:700;
+}
+
+.close{
+
+width:18px;
+height:18px;
+
+border-radius:50%;
+
+background:#57b3ff;
+
+cursor:pointer;
+}
+
+.window-body{
+
+padding:25px;
+
+display:flex;
+gap:25px;
+}
+
+.profile{
+
+width:220px;
+height:220px;
+
+object-fit:cover;
+
+border-radius:20px;
+
+border:2px solid rgba(255, 255, 255, 0.15);
+}
+
+.info{
+flex:1;
+}
+
+.info h1{
+line-height:1.4;
+margin-bottom:15px;
+}
+
+.about{
+line-height:1.8;
+}
+
+.links{
+
+margin-top:20px;
+
+padding:15px;
+
+border-radius:15px;
+
+background:rgba(255, 255, 255, 0.08);
+}
+
+.status{
+
+margin-top:15px;
+
+display:inline-block;
+
+padding:10px 15px;
+
+border-radius:20px;
+
+background:rgba(0,180,255,.15);
+
+border:1px solid rgba(255, 255, 255, 0.15);
+}
+
+@media(max-width:750px){
+
+.window{
+width:95vw;
+left:10px;
+}
+
+.window-body{
+flex-direction:column;
+align-items:center;
+}
+
+.profile{
+width:180px;
+height:180px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+
+<div id="topbar">
+
+<div class="left">
+
+<div class="pill" id="osBtn">
+ZENOS
+</div>
+
+<div class="pill" id="weather">
+    🌤️ Loading Weather...
+</div>
+
+<div class="pill" id="day">
+Day
+</div>
+
+<div class="pill" id="date">
+Date
+</div>
+
+</div>
+
+<div class="right">
+
+<div class="pill" id="clock">
+00:00:00
+</div>
+
+</div>
+
+</div>
+
+<!-- WINDOW -->
+
+<div class="window" id="welcomeWindow">
+
+<div class="window-header" id="welcomeWindowheader">
+
+<div class="window-title">
+✨ Welcome
+</div>
+
+<div class="close" id="closeBtn"></div>
+
+</div>
+
+<div class="window-body">
+
+<img
+class="profile"
+src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7XQrGKczEuXumgZBY0kbwxrl6RzckLQwNUg&s">
+
+<div class="info">
+
+<h1>
+HEY !! I AM YASHASVI AND LETS US DECODE MORE ABOUT ME
+</h1>
+
+<div class="about">
+
+HI EVERYONE THIS IS YASHASVI AND I AM A TEEN FROM INDIA.
+
+I LOVE TO CODE,
+WATCH K-DRAMA
+AND KPOP.
+
+AND I WANNA WIN MAC AIR THIS TIME.
+
+</div>
+
+<div class="status">
+💙 Building My Dream OS
+</div>
+
+<div class="links">
+🔗 LINK HERE
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* CLOCK */
+
+function updateClock(){
+
+const now = new Date();
+
+clock.innerHTML =
+now.toLocaleTimeString();
+
+date.innerHTML =
+now.toLocaleDateString();
+
+day.innerHTML =
+now.toLocaleDateString(
+'en-US',
+{
+weekday:'long'
+}
+);
+
+}
+
+updateClock();
+setInterval(updateClock,1000);
+
+/* WEATHER */
+
+async function getWeather() {
+
+    if (!navigator.geolocation) {
+        document.getElementById("weather").innerHTML =
+        "🌤️ Weather Unavailable";
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        async (position) => {
+
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            try {
+
+                // Temperature
+                const weatherRes = await fetch(
+                    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m`
+                );
+
+                const weatherData = await weatherRes.json();
+
+                // City Name
+                const geoRes = await fetch(
+                    `https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}`
+                );
+
+                const geoData = await geoRes.json();
+
+                const city =
+                    geoData.address.city ||
+                    geoData.address.town ||
+                    geoData.address.village ||
+                    geoData.address.state ||
+                    "Unknown";
+
+                const temp =
+                    weatherData.current.temperature_2m;
+
+                document.getElementById("weather").innerHTML =
+                    `🌤️ ${city} ${temp}°C`;
+
+            } catch (error) {
+
+                document.getElementById("weather").innerHTML =
+                    "🌤️ Weather Error";
+
+                console.error(error);
+
+            }
+
+        },
+        () => {
+            document.getElementById("weather").innerHTML =
+            "📍 Location Denied";
+        }
+    );
+}
+
+// Run on startup
+getWeather();
+
+// Refresh every 10 minutes
+setInterval(getWeather, 600000);
+
+/* OPEN CLOSE */
+
+closeBtn.onclick = () => {
+welcomeWindow.style.display='none';
+};
+
+osBtn.onclick = () => {
+welcomeWindow.style.display='block';
+};
+
+/* DRAG WINDOW */
+
+dragElement(
+document.getElementById("welcomeWindow")
+);
+
+function dragElement(el){
+
+let pos1=0,pos2=0,pos3=0,pos4=0;
+
+document.getElementById(
+el.id+"header"
+).onmousedown=
+dragMouseDown;
+
+function dragMouseDown(e){
+
+e=e||window.event;
+
+e.preventDefault();
+
+pos3=e.clientX;
+pos4=e.clientY;
+
+document.onmouseup=
+closeDrag;
+
+document.onmousemove=
+drag;
+}
+
+function drag(e){
+
+e=e||window.event;
+
+e.preventDefault();
+
+pos1=pos3-e.clientX;
+pos2=pos4-e.clientY;
+
+pos3=e.clientX;
+pos4=e.clientY;
+
+el.style.top=
+(el.offsetTop-pos2)+"px";
+
+el.style.left=
+(el.offsetLeft-pos1)+"px";
+}
+
+function closeDrag(){
+
+document.onmouseup=null;
+document.onmousemove=null;
+}
+}
+
+</script>
+
+</body>
+</html>
+```
