@@ -14,6 +14,15 @@ padding:0;
 box-sizing:border-box;
 font-family:'Segoe UI',sans-serif;
 }
+:root{
+
+--accent:
+rgba(0,120,255,.18);
+
+--accent2:
+rgba(0,180,255,.15);
+
+}
 
 body{
 height:100vh;
@@ -24,7 +33,6 @@ background:
 url('zenosbg.jpg')
 center center/cover no-repeat;
 }
-
 /* ===========================
 TOP BAR
 =========================== */
@@ -44,7 +52,7 @@ padding:12px 20px;
 
 border-radius:30px;
 
-background:rgba(0,120,255,.15);
+background:var(--accent);
 
 backdrop-filter:blur(25px);
 
@@ -128,21 +136,20 @@ STAR CLOCK
 
 position:absolute;
 
-top:100px;
-right:60px;
+top:80px;
+right:40px;
 
-width:180px;
-height:180px;
+width:260px;
+height:260px;
 
-background:rgba(0,180,255,.15);
+background:
+linear-gradient(
+135deg,
+rgba(0,180,255,.35),
+rgba(0,120,255,.15)
+);
 
-backdrop-filter:blur(20px);
-
-border:2px dashed rgba(255,255,255,.5);
-
-box-shadow:
-0 0 25px rgba(87,179,255,.5),
-0 0 60px rgba(87,179,255,.2);
+backdrop-filter:blur(25px);
 
 clip-path:polygon(
 50% 0%,
@@ -167,13 +174,37 @@ cursor:move;
 
 z-index:1000;
 
+border:3px solid
+rgba(255,255,255,.6);
+
+box-shadow:
+0 0 25px rgba(87,179,255,.8),
+0 0 50px rgba(87,179,255,.5),
+0 0 90px rgba(87,179,255,.25);
+
 }
+
 #widgetClock{
 
-font-size:18px;
-font-weight:bold;
-}
+font-size:24px;
 
+font-weight:700;
+
+color:white;
+
+text-shadow:
+0 0 10px rgba(255,255,255,.8),
+0 0 20px rgba(87,179,255,.8);
+
+line-height:1.4;
+
+width:140px;
+
+text-align:center;
+
+pointer-events:none;
+
+}
 /* ===========================
 DOCK
 =========================== */
@@ -193,8 +224,7 @@ gap:12px;
 padding:12px 18px;
 
 border-radius:30px;
-
-background:rgba(0,120,255,.18);
+background:var(--accent);
 
 backdrop-filter:blur(30px);
 
@@ -288,7 +318,7 @@ border-radius:25px;
 
 overflow:hidden;
 
-background:rgba(0,120,255,.15);
+background:var(--accent);
 
 backdrop-filter:blur(25px);
 
@@ -554,6 +584,51 @@ Starting Systems...
 ZENOS OS
 </div>
 
+<div class="top-pill">
+<select id="themeSelector">
+
+<option value="blue">
+💙 Blue
+</option>
+
+<option value="purple">
+💜 Purple
+</option>
+
+<option value="green">
+💚 Green
+</option>
+
+</select>
+</div>
+
+
+<div class="top-pill">
+
+<select id="bgSelector">
+
+<option value="blue">
+💙 Blue
+</option>
+
+<option value="pink">
+🩷 Pink
+</option>
+
+<option value="red">
+❤️ Red
+</option>
+
+<option value="purple">
+💜 Purple
+</option>
+
+</select>
+
+</div>
+
+
+
 <div class="top-pill" id="liveDate">
 Date
 </div>
@@ -564,11 +639,9 @@ Date
 
 </div>
 
-<!-- STAR CLOCK -->
-
 <div id="starWidget">
 <div id="widgetClock">
-00:00
+00:00:00
 </div>
 </div>
 
@@ -630,7 +703,7 @@ z-index:99999;
 <br>
 
 <p>
-Your personal futuristic web operating system.
+HEY !!! WELCOME HERE LETS EXPLORE MORE ABOUT MY WEBOS NAMELY ZENOS 
 </p>
 
 <br>
@@ -831,8 +904,27 @@ onclick="closeWindow('missionControlWindow')">
 <br>
 
 <p>
-Currently Running Apps:
+Running Applications
 </p>
+
+<br>
+
+<div
+style="
+display:flex;
+justify-content:space-between;
+margin-bottom:10px;
+">
+
+<span>
+Apps Active
+</span>
+
+<span id="appCount">
+0
+</span>
+
+</div>
 
 <br>
 
@@ -845,17 +937,6 @@ background:rgba(255,255,255,.08);
 ">
 
 No apps running
-
-</div>
-
-</div>
-
-
-🪐 StellarOS<br>
-📖 Captain's Log<br>
-📝 Notes<br>
-🎵 Music<br>
-🌐 Browser<br>
 
 </div>
 
@@ -1085,38 +1166,31 @@ BROWSER
 
 <div class="window-body">
 
-<div
-style="
-display:flex;
-gap:10px;
-margin-bottom:10px;
-">
+<h2>🌐 ZENOS Browser</h2>
 
-<input
-id="browserUrl"
-placeholder="Enter URL"
-style="
-flex:1;
-padding:12px;
-border:none;
-border-radius:10px;
-">
+<br>
 
-<button
-onclick="loadWebsite()">
-Go
+<p>
+Trusted shortcuts:
+</p>
+
+<br>
+
+<button onclick="window.open('https://www.wikipedia.org')">
+Wikipedia
+</button>
+
+<button onclick="window.open('https://www.nasa.gov')">
+NASA
+</button>
+
+<button onclick="window.open('https://github.com')">
+GitHub
 </button>
 
 </div>
 
-<iframe
-id="browserFrame"
-src="https://www.wikipedia.org">
-</iframe>
-
 </div>
-</div>
-
 <!-- ==========================
 CLOCK APP
 ========================== -->
@@ -1193,6 +1267,10 @@ Detecting Location...
 </div>
 
 </div>
+<!-- ==========================
+CALENDAR
+========================== -->
+
 <div class="window" id="calendarWindow">
 
 <div class="window-header" id="calendarWindowheader">
@@ -1218,14 +1296,44 @@ onclick="closeWindow('calendarWindow')"></div>
 
 <div class="window-body">
 
-<iframe
-src="https://calendar.google.com">
-</iframe>
+<h2 id="calendarMonth"></h2>
+
+<br>
+
+<div
+id="calendarGrid"
+style="
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:8px;
+text-align:center;
+">
+</div>
 
 </div>
 
 </div>
 <script>
+setTimeout(()=>{
+
+const bootScreen =
+document.getElementById(
+"bootScreen"
+);
+
+if(!bootScreen) return;
+
+bootScreen.style.opacity =
+"0";
+
+setTimeout(()=>{
+
+bootScreen.remove();
+
+},1000);
+
+},2500);
+
 let runningApps = [];
 
 /* ==========================
@@ -1240,6 +1348,13 @@ const win =
 document.getElementById(id);
 
 win.style.display = "block";
+
+/* Load weather only when opened */
+if(id === "weatherWindow"){
+
+loadWeather();
+
+}
 
 highestZ++;
 
@@ -1289,7 +1404,11 @@ document.getElementById("liveClock").innerHTML =
 now.toLocaleTimeString();
 
 document.getElementById("widgetClock").innerHTML =
-now.toLocaleTimeString();
+now.toLocaleTimeString([],{
+hour:"2-digit",
+minute:"2-digit",
+second:"2-digit"
+});
 
 document.getElementById("bigClock").innerHTML =
 now.toLocaleTimeString();
@@ -1317,11 +1436,31 @@ CALCULATOR
 function calculate(){
 
 const input =
-document.getElementById("calcInput").value;
+document.getElementById(
+"calcInput"
+).value;
+
+if(
+!/^[0-9+\-*/(). ]+$/.test(input)
+){
+
+document.getElementById(
+"calcResult"
+).innerHTML =
+"Invalid Expression";
+
+return;
+
+}
 
 try{
 
-const result = eval(input);
+const result =
+Function(
+'"use strict"; return (' +
+input +
+')'
+)();
 
 document.getElementById(
 "calcResult"
@@ -1329,7 +1468,6 @@ document.getElementById(
 "Result: " + result;
 
 }
-
 catch{
 
 document.getElementById(
@@ -1340,7 +1478,6 @@ document.getElementById(
 }
 
 }
-
 /* ==========================
 PAINT APP
 ========================== */
@@ -1550,6 +1687,19 @@ document.getElementById(
 "missionControlWindow"
 )
 );
+
+dragElement(
+document.getElementById(
+"weatherWindow"
+)
+);
+
+dragElement(
+document.getElementById(
+"calendarWindow"
+)
+);
+
 /* ==========================
 STAR WIDGET DRAG
 ========================== */
@@ -1752,7 +1902,7 @@ document.getElementById(
 
 }
 
-loadWeather();
+
 
 let maximized = {};
 
@@ -1796,31 +1946,8 @@ maximized[id].height;
 delete maximized[id];
 
 }
-
 }
-setTimeout(()=>{
 
-document.getElementById(
-"bootScreen"
-).style.opacity="0";
-
-setTimeout(()=>{
-
-document.getElementById(
-"bootScreen"
-).remove();
-
-},1000);
-
-},2500);  
-
-setTimeout(()=>{
-
-alert(
-"Welcome to ZENOS V2 🚀"
-);
-
-},3000);
 
 
 function toggleLauncher(){
@@ -1861,7 +1988,64 @@ launcher.style.display =
 
 }
 );
+updateMissionControl();
 function updateMissionControl(){
+
+const panel =
+document.getElementById(
+"missionApps"
+);
+
+const count =
+document.getElementById(
+"appCount"
+);
+
+if(!panel) return;
+
+const appNames = {
+
+stellarWindow:"🪐 StellarOS",
+captainWindow:"📖 Captain's Log",
+notesWindow:"📝 Notes",
+musicWindow:"🎵 Music",
+browserWindow:"🌐 Browser",
+calculatorWindow:"🧮 Calculator",
+paintWindow:"🎨 Paint",
+clockWindow:"🕒 Clock",
+weatherWindow:"🌤️ Weather",
+calendarWindow:"📅 Calendar",
+aiWindow:"🤖 AI Assistant",
+missionControlWindow:"🚀 Mission Control"
+
+};
+
+count.innerHTML =
+runningApps.length;
+
+panel.innerHTML =
+runningApps.length
+?
+runningApps.map(
+app=>`
+
+<div style="
+padding:10px;
+margin-bottom:8px;
+border-radius:12px;
+background:rgba(255,255,255,.08);
+">
+
+${appNames[app]||app}
+
+</div>
+
+`
+).join("")
+:
+"No apps running";
+
+}/*
 
 const panel =
 document.getElementById(
@@ -1870,21 +2054,258 @@ document.getElementById(
 
 if(!panel) return;
 
+const appNames = {
+
+stellarWindow:
+"🪐 StellarOS",
+
+captainWindow:
+"📖 Captain's Log",
+
+notesWindow:
+"📝 Notes",
+
+musicWindow:
+"🎵 Music",
+
+browserWindow:
+"🌐 Browser",
+
+calculatorWindow:
+"🧮 Calculator",
+
+paintWindow:
+"🎨 Paint",
+
+clockWindow:
+"🕒 Clock",
+
+weatherWindow:
+"🌤️ Weather",
+
+calendarWindow:
+"📅 Calendar",
+
+aiWindow:
+"🤖 AI Assistant",
+
+missionControlWindow:
+"🚀 Mission Control"
+
+};
+
 panel.innerHTML =
 runningApps.length
 ?
-runningApps.join("<br>")
+runningApps
+.map(app =>
+appNames[app] || app
+)
+.join("<br>")
 :
 "No apps running";
 
-}
-setTimeout(()=>{
+*/
 
-openWindow(
-"missionControlWindow"
+
+const themeSelector =
+document.getElementById(
+"themeSelector"
 );
 
-},3500);
+themeSelector.addEventListener(
+"change",
+()=>{
+
+const theme =
+themeSelector.value;
+
+if(theme==="blue"){
+
+document.documentElement
+.style.setProperty(
+"--accent",
+"rgba(0,120,255,.18)"
+);
+
+document.documentElement
+.style.setProperty(
+"--accent2",
+"rgba(0,180,255,.15)"
+);
+
+}
+
+if(theme==="purple"){
+
+document.documentElement
+.style.setProperty(
+"--accent",
+"rgba(140,0,255,.18)"
+);
+
+document.documentElement
+.style.setProperty(
+"--accent2",
+"rgba(180,0,255,.15)"
+);
+
+}
+
+if(theme==="green"){
+
+document.documentElement
+.style.setProperty(
+"--accent",
+"rgba(0,180,120,.18)"
+);
+
+document.documentElement
+.style.setProperty(
+"--accent2",
+"rgba(0,255,150,.15)"
+);
+
+}
+
+}
+);
+
+
+const bgSelector =
+document.getElementById(
+"bgSelector"
+);
+
+bgSelector.addEventListener(
+"change",
+()=>{
+
+const bg =
+bgSelector.value;
+
+if(bg==="blue"){
+
+document.body.style.background =
+"url('zenosbg.jpg') center center/cover no-repeat";
+
+}
+
+if(bg==="pink"){
+
+document.body.style.background =
+"url('pink.jpg') center center/cover no-repeat";
+
+}
+
+if(bg==="red"){
+
+document.body.style.background =
+"url('red.jpg') center center/cover no-repeat";
+
+}
+
+if(bg==="purple"){
+
+document.body.style.background =
+"url('purple.jpg') center center/cover no-repeat";
+
+}
+
+}
+);
+
+function generateCalendar(){
+
+const monthLabel =
+document.getElementById(
+"calendarMonth"
+);
+
+const grid =
+document.getElementById(
+"calendarGrid"
+);
+
+if(!monthLabel || !grid) return;
+
+const today = new Date();
+
+const year =
+today.getFullYear();
+
+const month =
+today.getMonth();
+
+const firstDay =
+new Date(year,month,1).getDay();
+
+const daysInMonth =
+new Date(year,month+1,0).getDate();
+
+monthLabel.innerHTML =
+today.toLocaleString(
+"default",
+{
+month:"long",
+year:"numeric"
+}
+);
+
+grid.innerHTML = "";
+
+const dayNames = [
+"Sun",
+"Mon",
+"Tue",
+"Wed",
+"Thu",
+"Fri",
+"Sat"
+];
+
+dayNames.forEach(day=>{
+
+grid.innerHTML += `
+<div style="
+font-weight:bold;
+padding:10px;
+background:rgba(255,255,255,.12);
+border-radius:10px;
+">
+${day}
+</div>
+`;
+
+});
+
+for(let i=0;i<firstDay;i++){
+
+grid.innerHTML += `
+<div></div>
+`;
+
+}
+
+for(let day=1;day<=daysInMonth;day++){
+
+grid.innerHTML += `
+<div style="
+padding:12px;
+border-radius:12px;
+background:rgba(255,255,255,.08);
+">
+${day}
+</div>
+`;
+
+}
+
+}
+
+generateCalendar();
+
+
 </script>
 
 </body>
