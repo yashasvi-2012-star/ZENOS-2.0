@@ -664,10 +664,6 @@ Date
 <span>Notes</span>
 </div>
 
-<div class="desktop-icon" onclick="openWindow('aiWindow')">
-<div class="emoji">🤖</div>
-<span>AI Chatbot</span>
-</div>
 
 <div class="desktop-icon" onclick="openWindow('weatherWindow')">
 <div class="emoji">🌤️</div>
@@ -741,9 +737,9 @@ Enter ZENOS
 
 <button onclick="openWindow('calendarWindow')">📅 Calendar</button>
 
-<button onclick="openWindow('aiWindow')">🤖 AI Assistant</button>
-
 <button onclick="openWindow('missionControlWindow')">🚀 Mission Control</button>
+
+</div>
 
 </div>
 
@@ -790,7 +786,15 @@ STELLAR OS
 
 <div class="window-body">
 
-<h1>Welcome to StellarOS</h1>
+<iframe
+src="stellaros.html"
+style="
+width:100%;
+height:100%;
+border:none;
+border-radius:15px;
+">
+</iframe>
 
 <br>
 
@@ -799,11 +803,6 @@ Your interactive Solar System project launcher.
 </p>
 
 <br>
-
-<p>
-Future versions will connect directly to your
-planet exploration page.
-</p>
 
 </div>
 
@@ -944,69 +943,6 @@ No apps running
 
 </div>
 
-<!-- ==========================
-AI CHATBOT
-========================== -->
-
-<div class="window" id="aiWindow">
-
-<div class="window-header" id="aiWindowheader">
-
-<div class="window-title">
-🤖 AI Assistant
-</div>
-
-<div class="window-buttons">
-<div class="minimize" onclick="minimizeWindow('aiWindow')"></div>
-<div class="close" onclick="closeWindow('aiWindow')"></div>
-</div>
-
-</div>
-
-<div class="window-body">
-
-<div
-id="chatArea"
-style="
-height:320px;
-overflow-y:auto;
-padding:10px;
-background:rgba(255,255,255,.08);
-border-radius:15px;
-margin-bottom:10px;
-">
-
-<div>
-🤖 Hello! Welcome to ZENOS AI.
-</div>
-
-</div>
-
-<input
-id="chatInput"
-placeholder="Ask something..."
-style="
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-margin-bottom:10px;
-">
-
-<button
-onclick="sendMessage()"
-style="
-padding:10px 20px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-">
-Send
-</button>
-
-</div>
-
-</div>
 
 <!-- ==========================
 MUSIC
@@ -1060,31 +996,51 @@ CALCULATOR
 
 <div class="window-body">
 
-<input
-id="calcInput"
-placeholder="Example: 5+5*2">
-
-<button
+<div id="calcDisplay"
 style="
-margin-top:15px;
-padding:12px 20px;
-border:none;
+background:white;
+color:black;
+padding:15px;
+font-size:30px;
 border-radius:12px;
-cursor:pointer;
-font-size:16px;
-"
-onclick="calculate()">
-Calculate
-</button>
-
-<div id="calcResult">
-Result:
+margin-bottom:10px;
+text-align:right;
+">
+0
 </div>
 
-</div>
+<div
+style="
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px;
+">
+
+<button onclick="appendCalc('7')">7</button>
+<button onclick="appendCalc('8')">8</button>
+<button onclick="appendCalc('9')">9</button>
+<button onclick="appendCalc('/')">÷</button>
+
+<button onclick="appendCalc('4')">4</button>
+<button onclick="appendCalc('5')">5</button>
+<button onclick="appendCalc('6')">6</button>
+<button onclick="appendCalc('*')">×</button>
+
+<button onclick="appendCalc('1')">1</button>
+<button onclick="appendCalc('2')">2</button>
+<button onclick="appendCalc('3')">3</button>
+<button onclick="appendCalc('-')">−</button>
+
+<button onclick="appendCalc('0')">0</button>
+<button onclick="appendCalc('.')">.</button>
+<button onclick="calculateCalc()">=</button>
+<button onclick="appendCalc('+')">+</button>
+
+<button onclick="clearCalc()">C</button>
 
 </div>
-
+</div>
+</div>
 <!-- ==========================
 PAINT
 ========================== -->
@@ -1149,6 +1105,10 @@ cursor:crosshair;
 BROWSER
 ========================== -->
 
+<!-- ==========================
+BROWSER
+========================== -->
+
 <div class="window" id="browserWindow">
 
 <div class="window-header" id="browserWindowheader">
@@ -1166,26 +1126,33 @@ BROWSER
 
 <div class="window-body">
 
-<h2>🌐 ZENOS Browser</h2>
+<input
+id="browserInput"
+placeholder="Enter website..."
+style="
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+margin-bottom:10px;
+">
 
-<br>
-
-<p>
-Trusted shortcuts:
-</p>
-
-<br>
-
-<button onclick="window.open('https://www.wikipedia.org')">
-Wikipedia
+<button onclick="visitSite()">
+Go
 </button>
 
-<button onclick="window.open('https://www.nasa.gov')">
-NASA
+<br><br>
+
+<button onclick="window.open('https://google.com','_blank')">
+Google
 </button>
 
-<button onclick="window.open('https://github.com')">
+<button onclick="window.open('https://github.com','_blank')">
 GitHub
+</button>
+
+<button onclick="window.open('https://youtube.com','_blank')">
+YouTube
 </button>
 
 </div>
@@ -1433,51 +1400,58 @@ setInterval(updateClock,1000);
 CALCULATOR
 ========================== */
 
-function calculate(){
+ let calcValue = "";
 
-const input =
-document.getElementById(
-"calcInput"
-).value;
+function appendCalc(val){
 
-if(
-!/^[0-9+\-*/(). ]+$/.test(input)
-){
+calcValue += val;
 
 document.getElementById(
-"calcResult"
+"calcDisplay"
 ).innerHTML =
-"Invalid Expression";
-
-return;
+calcValue;
 
 }
 
+function clearCalc(){
+
+calcValue = "";
+
+document.getElementById(
+"calcDisplay"
+).innerHTML = "0";
+
+}
+
+function calculateCalc(){
+
 try{
 
-const result =
+calcValue =
 Function(
 '"use strict"; return (' +
-input +
+calcValue +
 ')'
 )();
 
 document.getElementById(
-"calcResult"
+"calcDisplay"
 ).innerHTML =
-"Result: " + result;
+calcValue;
 
-}
-catch{
+}catch{
 
 document.getElementById(
-"calcResult"
+"calcDisplay"
 ).innerHTML =
-"Invalid Expression";
+"Error";
+
+calcValue = "";
 
 }
 
 }
+
 /* ==========================
 PAINT APP
 ========================== */
@@ -1646,11 +1620,7 @@ document.getElementById(
 )
 );
 
-dragElement(
-document.getElementById(
-"aiWindow"
-)
-);
+
 
 dragElement(
 document.getElementById(
@@ -1784,40 +1754,6 @@ notesArea.value
 );
 
 }
-function sendMessage(){
-
-const input =
-document.getElementById(
-"chatInput"
-);
-
-const chat =
-document.getElementById(
-"chatArea"
-);
-
-if(input.value.trim()==="")
-return;
-
-chat.innerHTML +=
-`
-<div style="margin-top:10px;">
-🧑 ${input.value}
-</div>
-
-<div>
-🤖 I am currently offline.
-Future versions will connect
-to a real AI model.
-</div>
-`;
-
-input.value="";
-
-chat.scrollTop =
-chat.scrollHeight;
-
-}
 
 
 function closeWelcome(){
@@ -1844,6 +1780,9 @@ async function loadWeather(){
 
 if(!navigator.geolocation) return;
 
+document.getElementById("weatherInfo").innerHTML =
+"Requesting Location...";
+
 navigator.geolocation.getCurrentPosition(
 async(position)=>{
 
@@ -1863,18 +1802,18 @@ await fetch(
 const weatherData =
 await weatherRes.json();
 
-const geoRes =
-await fetch(
-`https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}`
+const geoRes = await fetch(
+`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
 );
 
 const geoData =
 await geoRes.json();
-
 const city =
 geoData.address.city ||
 geoData.address.town ||
 geoData.address.village ||
+geoData.address.county ||
+geoData.address.state ||
 "Unknown";
 
 document.getElementById(
@@ -2015,7 +1954,6 @@ paintWindow:"🎨 Paint",
 clockWindow:"🕒 Clock",
 weatherWindow:"🌤️ Weather",
 calendarWindow:"📅 Calendar",
-aiWindow:"🤖 AI Assistant",
 missionControlWindow:"🚀 Mission Control"
 
 };
@@ -2086,8 +2024,6 @@ weatherWindow:
 calendarWindow:
 "📅 Calendar",
 
-aiWindow:
-"🤖 AI Assistant",
 
 missionControlWindow:
 "🚀 Mission Control"
@@ -2305,6 +2241,26 @@ ${day}
 
 generateCalendar();
 
+
+function visitSite(){
+
+let url =
+document.getElementById(
+"browserInput"
+).value;
+
+if(!url.startsWith("http")){
+
+url = "https://" + url;
+
+}
+
+window.open(
+url,
+"_blank"
+);
+
+}
 
 </script>
 

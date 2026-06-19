@@ -391,12 +391,12 @@ async function getWeather() {
 
                 const geoData = await geoRes.json();
 
-                const city =
-                    geoData.address.city ||
-                    geoData.address.town ||
-                    geoData.address.village ||
-                    geoData.address.state ||
-                    "Unknown";
+               const city =
+geoData.address.city ||
+geoData.address.town ||
+geoData.address.village ||
+geoData.address.county ||
+"Unknown";
 
                 const temp =
                     weatherData.current.temperature_2m;
