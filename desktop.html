@@ -1123,12 +1123,11 @@ BROWSER
 </div>
 
 </div>
-
 <div class="window-body">
 
 <input
 id="browserInput"
-placeholder="Enter website..."
+placeholder="Enter website (google.com)"
 style="
 width:100%;
 padding:12px;
@@ -1140,8 +1139,17 @@ margin-bottom:10px;
 <button onclick="visitSite()">
 Go
 </button>
+<button onclick="searchWeb()">
+Search Google
+</button>
 
 <br><br>
+
+<div id="browserStatus">
+Ready
+</div>
+<br>
+<p>OR YOU CAN DIRECTLY TRY THESE !!!</p>
 
 <button onclick="window.open('https://google.com','_blank')">
 Google
@@ -1155,7 +1163,9 @@ GitHub
 YouTube
 </button>
 
-</div>
+<button onclick="window.open('https://wikipedia.org','_blank')">
+Wikipedia
+</button>
 
 </div>
 <!-- ==========================
@@ -2247,16 +2257,41 @@ function visitSite(){
 let url =
 document.getElementById(
 "browserInput"
-).value;
+).value.trim();
+
+if(url===""){
+return;
+}
 
 if(!url.startsWith("http")){
-
 url = "https://" + url;
-
 }
+
+document.getElementById(
+"browserStatus"
+).innerHTML =
+"Opening: " + url;
 
 window.open(
 url,
+"_blank"
+);
+
+}
+function searchWeb(){
+
+let query =
+document.getElementById(
+"browserInput"
+).value.trim();
+
+if(query===""){
+return;
+}
+
+window.open(
+"https://www.google.com/search?q=" +
+encodeURIComponent(query),
 "_blank"
 );
 
