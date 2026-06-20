@@ -8,5 +8,5 @@ my main OS page contain two type of apps (windows)
 2- advance app: like stellaros , captains log, ,ai chatbot,ZENOS applist , MissionControl .
 it have other features like options to change theme and background. 
 the advance app missioncontrol is a window where you can see all the running app and number of active apps .
-i have tried to make this simple and to-the-point.i have tried to do my best !!!
+i have tried to make this simple and to-the-point.i also have used ai to fix some problem like at first my website was showing danger sign so i took help of ai to make sure that i remove each and evrything that can trigger that warning . have tried to do my best !!!
 BYE!!!!
